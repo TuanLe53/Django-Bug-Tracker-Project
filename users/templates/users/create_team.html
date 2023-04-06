@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/users/style.css' %}">{% endblock  %}
+{% block title %}Create Team{% endblock  %}
+
+{% block content %}
+
+    {% if request.user|has_group:"Leaders" %}
+        <form method="POST" action="">
+            {% csrf_token %}
+            <legend>Create Your Team</legend>
+            <label for="name">Team's name:</label>
+            <input type="text" placeholder="Enter your team name" name="name" id="name">
+            <button type="submit">Create</button>
+        </form>
+    {% else %}
+        <h1>Teams:</h1>
+        <table>
+            <tr>
+                <th>Team's name</th>
+                <th>Total members</th>
+            </tr>
+        {% for team in teams %}
+            <tr>
+                <td>{{team.name}}</td>
+                <td>{{team.members.count}}<a href="{% url 'users:join' team.name %}">Join</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

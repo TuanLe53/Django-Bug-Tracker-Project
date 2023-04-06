@@ -1,0 +1,92 @@
+:root{
+    --bg-secondary: #0A2647;
+    --tb-bg: #205295;
+    --tb-row: #7895B2;
+    --form-bg: #144272;
+}
+/* html{
+    color-scheme: dark light;
+} */
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+*{
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: #F0FFFF;
+}
+img, picture, video, svg{
+    display: block;
+}
+body{
+    min-height: 100vh;
+    background-color: #2C74B3;
+    display: flex;
+    gap: 50px;
+}
+
+main{
+    width: 80%;
+}
+a{
+    text-decoration: none;
+}
+*::-webkit-scrollbar{
+    display: none;
+}
+button{
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--tb-row);
+}
+input, textarea, select, option{
+    color: black;
+}
+
+table{
+    width: 100%;
+    background-color: var(--tb-bg);
+    overflow: scroll;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+table th, tr, td{
+    padding: 5px;
+}
+table tr:nth-child(even) {
+    background-color: var(--tb-row);
+}
+form{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.form-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+header{
+    background-color: var(--bg-secondary);
+    padding: 20px;
+    text-align: center;
+    font-size: 1.3rem;
+}
+header hr{
+    margin-bottom: 13px;
+}
+#logo span{
+    font-size: 3rem;
+}
+header .btn{
+    padding: 4px;
+    border-radius: 9px;
+    color: #2C3333;
+}
+header .out{
+    background-color: #DF2E38;
+}
+header .in{
+    background-color: #B5F1CC;
+}

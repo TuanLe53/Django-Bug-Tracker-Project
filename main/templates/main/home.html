@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/main/home.css' %}">{% endblock  %}
+{% block title %}Dashboard{% endblock  %}
+
+{% block content %}
+<form method="POST" action="" id="project_form">
+  {% csrf_token %}
+  {{form}}
+
+  <div class="form-checkbox">
+    <h3>Members:</h3>
+    {% for dev in team.members.all %}
+    <div class="form-group">
+      <input class="form-check-input" type="checkbox" value="{{dev}}" id="{{dev}}" name="members">
+      <label class="form-check-label" for="{{dev}}">{{dev}}</label>
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" id="close_form">Close</button>
+  <button type="submit">Add Project</button>
+</form>
+
+<div class="project_container">
+  <table>
+      <tr>
+          <th>Project's name</th>
+          <th>Description</th>
+          <th>Total members</th>
+          <th>Total tickets</th>
+      </tr>
+
+      {% for project in projects %}
+          <tr>
+              <td><a href="{% url 'ticket:project_detail' project.id %}">{{project.name}}</a></td>
+              <td>{{project.description}}</td>
+              <td>{{project.members.count}}</td>
+              <td>{{project.ticket_set.count}}</td>
+          </tr>
+      {% endfor %}
+  </table>
+
+  {% if request.user|has_group:"Leaders" %}
+  <button type="button" id="display_form">Add Project</button>
+  {% endif %}
+  
+</div>
+
+
+<div class="tickets_info">
+    <div class="table_container">
+      <h3>Priority table</h3>
+      <div id="priority"></div>
+      <div class="notes">
+        <div class="first_note">Low</div>
+        <div class="second_note">Medium</div>
+        <div class="third_note">High</div>
+      </div>
+    </div>
+    <div class="table_container">
+      <h3>Bug types table</h3>
+      <div id="type_of_bug"></div>
+      <div class="notes">
+        <div class="first_note">Feature</div>
+        <div class="second_note">Issue</div>
+        <div class="third_note">Bug</div>
+      </div>
+    </div>
+    <div class="table_container">
+      <h3>Status table</h3>
+      <div id="status"></div>
+      <div class="notes">
+        <div class="first_note">Resolved</div>
+        <div class="second_note">In progress</div>
+        <div class="third_note">New</div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script>
+    // set the dimensions and margins of the graph
+    var width = 270
+    height = 270
+    margin = 40
+    
+    // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+    var radius = Math.min(width, height) / 2 - margin
+    
+    //Priority pie chart
+    // append the svg object to the div called 'priority'
+    var svg = d3.select("#priority")
+      .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+      .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    
+    // Create data
+    fetch('http://127.0.0.1:8000/api/info/{{team}}')
+    .then(response => response.json())
+    .then(data => {
+      priority_data = data["priority"];
+      var color = d3.scaleOrdinal()
+      .domain(priority_data)
+      .range(["#17B978", "#F9ED69", "#FF0000"])
+    
+    // Compute the position of each group on the pie:
+    var pie = d3.pie()
+      .value(function(d) {return d.value; })
+    var data_ready = pie(d3.entries(priority_data))
+    
+    // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+    svg
+      .selectAll('whatever')
+      .data(data_ready)
+      .enter()
+      .append('path')
+      .attr('d', d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius)
+      )
+      .attr('fill', function(d){ return(color(d.data.key)) })
+      .attr("stroke", "black")
+      .style("stroke-width", "2px")
+      .style("opacity", 0.7)
+    })
+
+    // Type of bug pie chart
+    var svg2 = d3.select("#type_of_bug")
+    .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+  
+  fetch('http://127.0.0.1:8000/api/info/{{team}}')
+  .then(response => response.json())
+  .then(data => {
+    type_of_bug_data = data["type_of_bug"];
+    var color = d3.scaleOrdinal()
+    .domain(type_of_bug_data)
+    .range(["#F9ED69", "#FF0000", "#17B978"])
+  
+  var pie2 = d3.pie()
+    .value(function(d) {return d.value; })
+  var data_ready = pie2(d3.entries(type_of_bug_data))
+  
+  svg2
+    .selectAll('whatever')
+    .data(data_ready)
+    .enter()
+    .append('path')
+    .attr('d', d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius)
+    )
+    .attr('fill', function(d){ return(color(d.data.key)) })
+    .attr("stroke", "black")
+    .style("stroke-width", "2px")
+    .style("opacity", 0.7)
+  })
+
+  //Status pie chart
+  var svg3 = d3.select("#status")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+fetch('http://127.0.0.1:8000/api/info/{{team}}')
+.then(response => response.json())
+.then(data => {
+  status_data = data["status"];
+  var color = d3.scaleOrdinal()
+  .domain(status_data)
+  .range(["#FF0000", "#F9ED69", "#17B978"])
+
+
+var pie3 = d3.pie()
+  .value(function(d) {return d.value; })
+var data_ready = pie3(d3.entries(status_data))
+
+svg3
+  .selectAll('whatever')
+  .data(data_ready)
+  .enter()
+  .append('path')
+  .attr('d', d3.arc()
+    .innerRadius(0)
+    .outerRadius(radius)
+  )
+  .attr('fill', function(d){ return(color(d.data.key)) })
+  .attr("stroke", "black")
+  .style("stroke-width", "2px")
+  .style("opacity", 0.7)
+})
+    </script>
+{% endblock  %}

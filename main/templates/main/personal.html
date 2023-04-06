@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/main/personal.css' %}">{% endblock  %}
+{% block title %}Team{% endblock  %}
+
+{% block content %}
+    <h1>{{user.username}}</h1>
+    <div class="project">
+        <h2>My Projects:</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Members</th>
+                <th>Tickets</th>
+            </tr>
+
+            {% for project in projects %}
+            <tr>
+                <th><a href="{% url 'ticket:project_detail' project.id %}">{{project.name}}</a></th>
+                <th>{{project.description}}</th>
+                <th>{{project.members.count}}</th>
+                <th>{{project.ticket_set.count}}</th>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <div class="ticket">
+        <h2>My Tickets:</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Project</th>
+                <th>Type of bug</th>
+                <th>Priority</th>
+                <th>Status</th>
+            </tr>
+
+            {% for ticket in tickets %}
+            <tr>
+                <th><a href="{% url 'ticket:ticket_detail' ticket.id %}">{{ticket.name}}</a></th>
+                <th>{{ticket.project}}</th>
+                <th>{{ticket.type_of_bug}}</th>
+                <th>{{ticket.priority}}</th>
+                <th>{{ticket.status}}</th>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+{% endblock  %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/main/ticket.css' %}">{% endblock  %}
+{% block title %}{{ticket.name}}{% endblock  %}
+
+{% block content %}
+
+    <div class="ticket">
+        <h1><a href="{% url 'ticket:project_detail' ticket.project.id %}">{{ticket.project}}</a></h1>
+        <p><span>Name:</span> {{ticket.name}}</p>
+        <p><span>Author:</span> {{ticket.created_by}}</p>
+        <p><span>Description:</span> {{ticket.description}}</p>
+        <p><span>Type of bug:</span> {{ticket.type_of_bug}}</p>
+        <ul><span>Assign:</span>{% for dev in ticket.assign.all %}<li>{{dev.username}}</li>{% endfor %}</ul>
+        
+        <form method="POST" action="" class="edit_form">
+            {% csrf_token %}
+            <legend>Edit Ticket</legend>
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+              <option value="{{ticket.status}}">{{ticket.status}}</option>
+              
+              {% for choice in status_choices %}
+                    <option value="{{choice.0}}">{{choice.0}}</option>
+              {% endfor %}
+              
+            </select>
+
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority">
+              <option value="{{ticket.priority}}">{{ticket.priority}}</option>
+              
+              {% for choice in priority_choices %}
+                    <option value="{{choice.0}}">{{choice.0}}</option>
+              {% endfor %}
+              
+            </select>
+
+            <label for="add_dev">Add dev:</label>
+            <select name="add_dev" id="add_dev">
+                    <option disabled selected value> -- select a dev -- </option>
+                {% for dev in available_dev %}
+                    <option value="{{dev}}">{{dev}}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="remove_dev">Remove dev:</label>
+            <select name="remove_dev" id="remove_dev">
+                    <option disabled selected value> -- select a dev -- </option>
+                {% for dev in ticket.assign.all %}
+                    <option value="{{dev}}">{{dev}}</option>
+                {% endfor %}
+            </select>
+
+            <input type="hidden" value="True" name="edit_ticket" id="id_edit_ticket">
+            <button type="submit">Submit</button>
+        </form>
+        
+    </div>
+    
+    <div class="comments">
+        <h1>Comment</h1>
+        <div class="comment_container">
+        {% for comment in comments reversed %}
+            <div class="comment">
+                <h2 class="comment_author">{{comment.created_by}}</h2>
+                <p class="content">{{comment.content}}</p>
+            </div>
+        {% endfor %}
+        </div>
+        <form method="POST" class="comment_form" action="">
+            {% csrf_token %}
+            {{comment_form}}
+            <input type="hidden" value="True" name="add_comment" id="id_add_comment">
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+{% endblock  %}

@@ -1,0 +1,88 @@
+main{
+    flex-direction: column;
+}
+.project_container{
+    margin-top: 90px;
+    margin-inline: auto;
+    position: relative;
+    padding-bottom: 24px;
+    width: 65%;
+}
+.project_container button{
+    background-color: var(--tb-row);
+    padding: 3px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+/* Projects Table */
+table{
+    max-height: 200px;
+    display: block;
+    padding: 5px;
+}
+
+table th{
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+#project_form{
+    display: none;
+    padding: 20px;
+    border-radius: 19px;
+    position: absolute;
+    top: 30%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    background-color: var(--form-bg);
+    z-index: 2;
+}
+#project_form input, label{
+    display: flex;
+}
+#project_form #id_description{
+    height: 50px;
+}
+#project_form button{
+    background-color: brown;
+}
+
+.tickets_info{
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--bg-secondary);
+    border-radius: 19px;
+}
+.tickets_info .table_container{
+    text-align: center;
+}
+.tickets_info h3{
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+.notes{
+    display: flex;
+    justify-content: space-around;
+}
+.first_note, .second_note, .third_note{
+    position: relative;
+}
+.first_note::before, .second_note::before, .third_note::before{
+    content: " ";
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    background-color: #17B978;
+}
+.second_note::before{
+    background-color: #F9ED69;
+}
+.third_note::before{
+    background-color: #FF0000;
+}

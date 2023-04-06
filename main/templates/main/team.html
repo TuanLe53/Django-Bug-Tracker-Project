@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/main/team.css' %}">{% endblock  %}
+{% block title %}Team{% endblock  %}
+
+{% block content %}
+    <h1>{{team}}</h1>
+    <table>
+        <tr>
+            <th>Members</th>
+            <th>Email</th>
+            <th>Tickets</th>
+            <th>Kick</th>
+        </tr>
+
+        {% for member in team.members.all %}
+            <tr>
+                <td>{{member.username}}</td>
+                <td>{{member.email}}</td>
+                <td>{{member.my_jobs.count}}</td>
+                <td>
+                    <a href="{% url 'ticket:kick' team.name member.id %}"><span class="material-symbols-outlined">close</span></a>
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+{% endblock  %}

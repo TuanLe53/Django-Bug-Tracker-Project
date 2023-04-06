@@ -1,0 +1,23 @@
+main{
+    margin-top: 80px;
+}
+
+#ticket_form{
+    width: 380px;
+    margin-top: 20px;
+    margin-inline: auto;
+    background-color: var(--tb-bg);
+    padding: 20px;
+    border-radius: 19px;
+}
+#ticket_form input, label{
+    display: flex;
+}
+#ticket_form #id_description{
+    height: 50px;
+}
+#ticket_form legend{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}

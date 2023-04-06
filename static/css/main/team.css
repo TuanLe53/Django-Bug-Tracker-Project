@@ -1,0 +1,13 @@
+main{
+    margin-top: 50px;
+}
+h1{
+    font-size: 3rem;
+}
+table th{
+    text-align: left;
+}
+table tr td a{
+    background-color: #FF0000;
+    padding-top: 10px;
+}

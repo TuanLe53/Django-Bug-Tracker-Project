@@ -1,0 +1,39 @@
+header{
+    display: none;
+}
+main{
+    margin: auto;
+}
+*{
+    color: black;
+}
+a{
+    color: #00B8A9;
+}
+form{
+    background-color: #EEEEEE;
+    margin: auto;
+    padding: 30px;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 14px;
+}
+form legend{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+form input{
+    margin-bottom: 5px;
+}
+form button{
+    margin-top: 10px;
+    background-color: #00B8A9;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+form h2{
+    color: red;
+}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/main/tickets.css' %}">{% endblock  %}
+{% block title %}Create Ticket{% endblock  %}
+
+{% block content %}
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Project</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Priority</th>
+        <th>Status</th>
+    </tr>
+
+    {% for ticket in tickets %}
+        <tr>
+            <td><a href="{% url 'ticket:ticket_detail' ticket.id %}">{{ticket.name}}</a></td>
+            <td>{{ticket.project}}</td>
+            <td>{{ticket.description}}</td>
+            <td>{{ticket.type_of_bug}}</td>
+            <td>{{ticket.priority}}</td>
+            <td>{{ticket.status}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<form method="POST" action="" id="ticket_form">
+    <legend>Add Ticket</legend>
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <label for="project">Project</label>
+    <select id="project" name="project">
+        <option disabled selected value> -- select a project -- </option>
+        {% for project in team.team_project.all %}
+        <option value="{{project}}">{{project}}</option>
+        {% endfor %}
+    </select>
+
+    <div class="form-checkbox">
+        <h3>Members:</h3>
+        {% for dev in team.members.all %}
+        <div class="form-group">
+          <input class="form-check-input" type="checkbox" value="{{dev}}" id="{{dev}}" name="members">
+          <label class="form-check-label" for="{{dev}}">{{dev}}</label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="submit">Add ticket</button>
+</form>
+
+{% endblock  %}

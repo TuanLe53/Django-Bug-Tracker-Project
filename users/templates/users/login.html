@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/users/style.css' %}">{% endblock  %}
+{% block title %}Login{% endblock  %}
+
+{% block content %}
+    
+    <form action="" method="POST">
+        {% csrf_token %}
+        <legend>Login</legend>
+        <label for="username">Username</label>
+        <input type="text" placeholder="Enter your username" id="username" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" placeholder="Enter your password" id="password" name="password" required>
+        <button type="submit">Login</button>
+
+        <br>
+        {% for message in messages %}
+                <h2>{{message}}</h2>
+        {% endfor %}
+        <div>
+            <p>Didn't have an account? <a href="{% url 'users:register' %}">Register Here</a></p>
+        </div>
+    </form>
+    
+{% endblock  %}
