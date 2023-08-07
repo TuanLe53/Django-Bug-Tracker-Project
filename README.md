@@ -20,7 +20,7 @@ A basic project for managing bugs in a typical project and application.
 - Allows the user to add projects 
 - Allows users to add and manage bugs in their project
 - Allows users to add and manage their team members
-- Bug has priority (low, medium, high) and state(resolved, unresolved)
+- Bug has priority (low, medium, high), state(resolved, unresolved) and type(feature, bug)
 
 ## Installation
 
